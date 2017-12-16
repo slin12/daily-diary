@@ -1,0 +1,58 @@
+.container {
+  text-align: center;
+}
+
+h1 {
+  color: white;
+  font-family: 'Playfair Display';
+}
+
+h4 {
+  fonst-size: 0.75em;
+}
+
+.question {
+  background-color: #D81E5B;
+  border-radius: 25px;
+  padding: 5%;
+  margin-bottom: 1%;
+  margin-top: 2%;
+  transition: 1s all;
+  color: white;
+}
+
+.question:hover {
+  background-color: #B7194E;
+}
+
+input {
+  color: #E8F1F2;
+}
+
+input:focus {
+     color: white;
+}
+
+button {
+  background-color: #D81E5B;
+}
+
+#selected-question {
+  margin-bottom: 5%;
+}
+
+.entry {
+  border: 1px solid white;
+  padding: 2%;
+  margin-bottom: 7%;
+  transition: 1s all;
+}
+
+.entry:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.today {
+  margin-top: 5%;
+  margin-bottom: 8%;
+}
