@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import moment from 'moment'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import QuestionPicker from './components/QuestionPicker'
 import DiaryEntry from './components/DiaryEntry'
@@ -11,7 +12,6 @@ class App extends Component {
     questions: [],
     selectedQuestion: "",
     lastFiveEntries: [],
-    body: 'entries',
     entryToEdit: null
   }
 
@@ -26,16 +26,16 @@ class App extends Component {
   }
 
   setQuestion = (q) => {
+    console.log('setting title...')
     this.setState({
-      selectedQuestion: q,
-      body: 'entry form'
+      selectedQuestion: q
     })
   }
 
   answerQuestion = () => {
     fetch('http://localhost:3000/questions')
       .then(res => res.json())
-      .then(json => this.setState({ questions: json, body: 'pick question' }))
+      .then(json => this.setState({ questions: json }))
   }
 
   createEntry = (answer) => {
@@ -49,9 +49,6 @@ class App extends Component {
       url = 'http://localhost:3000/entries'
       method = 'post'
     }
-
-    console.log(url)
-    console.log(method)
 
     fetch(url, {
       method: method,
@@ -73,31 +70,26 @@ class App extends Component {
     })
   }
 
-  getBody = () => {
-    if (this.state.body === 'entries') {
-      return <Entries lastFive={this.state.lastFiveEntries} answerQuestion={this.answerQuestion} editEntry={this.editEntry}/>
-    } else if (this.state.body === 'pick question') {
-      return <QuestionPicker questions={this.state.questions} setQuestion={this.setQuestion}/>
-    } else if (this.state.body === 'entry form'){
-      return <DiaryEntry createEntry = {this.createEntry} question={this.state.selectedQuestion} answer={this.state.entryToEdit} />
-    }
-  }
-
   render() {
-    let main = this.getBody()
     console.log(this.state)
     return (
-      <div>
-        <nav className="pink">
-          <div className="nav-wrapper">
-            <h6 className="brand-logo center">Daily Diary</h6>
-          </div>
-        </nav>
-        <div className="container">
-          <h1 id="date">Today is {moment().format('MMM Do YY')}</h1>
-          {main}
+      <Router>
+        <div>
+            <div>
+              <nav className="pink">
+                <div className="nav-wrapper">
+                  <h6 className="brand-logo center">Daily Diary</h6>
+                </div>
+              </nav>
+              <div className="container">
+                <h1 id="date">Today is {moment().format('MMM Do YY')}</h1>
+              </div>
+            </div>
+        <Route exact path="/" render={() => <Entries lastFive={this.state.lastFiveEntries} answerQuestion={this.answerQuestion} editEntry={this.editEntry} />} />
+        <Route exact path="/questions/new" render={() => <QuestionPicker questions={this.state.questions} setQuestion={this.setQuestion}/>} />
+        <Route exact path="/entries/new" render={() => <DiaryEntry createEntry = {this.createEntry} question={this.state.selectedQuestion} answer={this.state.entryToEdit} />} />
         </div>
-      </div>
+      </Router>
     );
   }
 }

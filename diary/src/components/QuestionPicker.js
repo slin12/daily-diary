@@ -1,15 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 const QuestionPicker = (props) => {
   let questions = props.questions.map((q, i) => {
     return (
-      <div key={i} className="question" onClick={() => {props.setQuestion(q)}}><p>{q.title}</p><br /></div>
+      <Link key={i} className="question" to="/entries/new" onClick={() => {props.setQuestion(q)}}>{q.title}</Link>
     )
   })
 
+  console.log(props)
 
   return (
-    <div className="questions">
+    <div className="questions container">
       <p>Pick Your Question</p>
       {questions}
     </div>

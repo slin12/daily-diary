@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 
 
 class Entries extends React.Component {
@@ -18,14 +19,14 @@ class Entries extends React.Component {
         </div>
       )
     } else {
-      return <button className="waves-effect waves-light btn pink" onClick={this.props.answerQuestion}>Answer A Question About Today</button>
+      return <Link to="/questions/new" className="waves-effect waves-light btn pink" onClick={this.props.answerQuestion}>Answer A Question About Today</Link>
     }
   }
 
   lastFive = () => {
     return this.props.lastFive.map(entry => {
       return (
-        <div className="entry">
+        <div className="entry" key={entry.created_at}>
           <small>{entry.created_at.slice(0, 10)}</small>
           <h4>{entry.question.title}</h4>
           <p>{entry.title}</p>
@@ -40,7 +41,7 @@ class Entries extends React.Component {
     const entries = this.lastFive();
     console.log(today)
     return (
-      <div className="entries">
+      <div className="entries container">
         <div className="today">
           {today}
         </div>
